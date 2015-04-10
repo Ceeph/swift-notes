@@ -1,8 +1,6 @@
-chrome.runtime.onInstalled.addListener(function(object details){
-
+chrome.runtime.onInstalled.addListener(function(details){
 	alert("hi");
-	chrome.commands.onCommand.addListener(function(string command) {
-	   console.log('Command:', command);
+	chrome.commands.onCommand.addListener(function(command) {
 	   alert(command);
 	});
 });
