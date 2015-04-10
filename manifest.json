@@ -6,15 +6,41 @@
   "description": "Notes a keybind away",
 
   "browser_action": {
-    "default_icon": "128.png",
+    "default_icon": "img/128.png",
     "default_popup": "popup.html"
   },
 
   "background": {
-      "scripts": ["background.js"],
+      "scripts": ["js/background.js"],
       "persistent": false
   },
 
   // Optional
-  "author": "Alessandro Cifani"
+  "author": "Alessandro Cifani",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["css/sidepanel.css"],
+      "js": ["js/sidepanel.js"]
+    }
+  ],
+
+  "commands": {
+    "open_sidebar": {
+      "suggested_key": {
+        "windows": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y",
+        "chromeos": "Ctrl+Shift+Y",
+        "linux": "Ctrl+Shift+Y"
+      },
+      "description": "Opens the sidebar panel"
+    }
+  },
+
+  "offline_enabled": true
 }
