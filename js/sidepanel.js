@@ -1,13 +1,7 @@
 //TODO: create sendMessage(msg) as function
 
 var panel =  {
-	/*loadHtml: function(){
-		$.get("../sidebar.html", function(data){
-			return data;
-		});
-	},*/
-
-	togglePanel: function(panel){
+  togglePanel: function(panel){
 		var openPanel = function(){
       console.log("open panel");
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
