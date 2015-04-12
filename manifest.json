@@ -7,40 +7,43 @@
 
   "browser_action": {
     "default_icon": "img/128.png",
-    "default_popup": "popup.html"
+    "default_title": "Swift Notes"
+    //"default_popup": "popup.html"
   },
 
   "background": {
-      "scripts": ["js/background.js"],
+      "scripts": ["js/jquery-2.1.3.min.js",
+                  "js/sidepanel.js",
+                  "js/background.js"],
       "persistent": false
   },
 
-  // Optional
-  "author": "Alessandro Cifani",
-  "permissions": [
-    "storage",
-    "activeTab"
-  ],
+  "content_scripts": [{
+    "matches": ["http://*/*",
+                "https://*/*"],
+    "js": ["js/content.js"]
+  }],
 
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "css": ["css/sidepanel.css"],
-      "js": ["js/sidepanel.js"]
-    }
+  "permissions": [
+    //"storage",
+    //"tabs",
+    "activeTab"
+    //"http://*/",
+    //"https://*/"
   ],
 
   "commands": {
-    "open_sidebar": {
+    "_execute_browser_action": {
       "suggested_key": {
         "windows": "Ctrl+Shift+Y",
         "mac": "Command+Shift+Y",
         "chromeos": "Ctrl+Shift+Y",
         "linux": "Ctrl+Shift+Y"
-      },
-      "description": "Opens the sidebar panel"
+      }
     }
   },
-
+  "web_accessible_resources": [
+    "sidebar.html"
+  ],
   "offline_enabled": true
 }
