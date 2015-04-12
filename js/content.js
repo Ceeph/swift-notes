@@ -1,14 +1,17 @@
-console.log("content.js");
-
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
    if (msg.text && (msg.text == "get_panel")) {
-      sendResponse({panel:document.getElementById('sidebarPanel')});
+      isPanel = ( document.getElementById('sidebarPanel') ? true : false );
+      sendResponse({ text: isPanel});
    }
    else if (msg.text && (msg.text == "open_panel")) {
+
+   	//TODO: change variables name
    	var newdiv = document.createElement('div'); 
-		newdiv.setAttribute('id','stefanvd');
+		newdiv.setAttribute('id','sidebarPanel');
+		newdiv.innerHTML = "ciao";
 		document.body.appendChild(newdiv);
-		alert("new div created");
-		sendResponse(newdiv);
+   }
+   else if (msg.text && (msg.text == "close_panel")) {
+   	document.getElementById("sidebarPanel").remove();
    }
 });

@@ -1,3 +1,5 @@
+//TODO: create sendMessage(msg) as function
+
 var panel =  {
 	/*loadHtml: function(){
 		$.get("../sidebar.html", function(data){
@@ -6,22 +8,26 @@ var panel =  {
 	},*/
 
 	togglePanel: function(panel){
-		console.log("toggle");
 		var openPanel = function(){
-			//chrome.tabs.executeScript(null, {file: "js/content.js"});
-      alert("open panel");
-      //$('body').append("<div>CIAONE</div>");
+      console.log("open panel");
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { text: "open_panel" }, 
-         function(response){
-            alert(response);
-         });
+        chrome.tabs.sendMessage(tabs[0].id, { text: "open_panel" }/*, 
+          function(response){
+            alert("ciaone");
+          }*/
+        );
       });
 		};
 
 		var closePanel = function(){
-      alert("close panel");
-      panel.remove();
+      console.log("close panel");
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, { text: "close_panel" }/*, 
+          function(response){
+            alert("ciaone");
+          }*/
+        );
+      });
 		};
 
 		if (panel) {			
