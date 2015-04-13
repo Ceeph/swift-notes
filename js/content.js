@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
    }
    else if (msg.text && (msg.text == "open_panel")) {
 
-   	//TODO: change variables name
+   	//TODO: better variables name & converto to jQuery
 		var newPanel = document.createElement('iframe');
 		newPanel.setAttribute('id','sidebarPanel');
 		newPanel.setAttribute('src',  chrome.extension.getURL('../sidebar.html'));
@@ -14,15 +14,22 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 			"overflow-x: hidden;" +
 			"position:fixed;" +
 			"top:0;" +
-			"right:0;" +
+			"right:-20%;" +
 			"width:20%;" +
-			"border: 2px solid black;" +
+			"border: none;" +
+			"-webkit-box-shadow: -4px 0px 7px 0px rgba(0,0,0,0.33);" +
+			"-moz-box-shadow: -4px 0px 7px 0px rgba(0,0,0,0.33);" +
+			"box-shadow: -4px 0px 7px 0px rgba(0,0,0,0.33);" +
 			"height:100%;");
       newPanel.setAttribute("allowtransparency", "false");
       newPanel.setAttribute("scrolling", "no");
 		document.body.appendChild(newPanel);
+		$('#sidebarPanel').animate({right: 0},50);
    }
    else if (msg.text && (msg.text == "close_panel")) {
-   	document.getElementById("sidebarPanel").remove();
+   	$('#sidebarPanel').animate({right: "-20%"},50,function(){
+   		$('#sidebarPanel').remove();
+   	});
+   	//document.getElementById("sidebarPanel").remove();
    }
 });
