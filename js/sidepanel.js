@@ -1,27 +1,25 @@
-//TODO: create sendMessage(msg) as function
+//TODO: CRUD on local storage
+
+var sendMessage = function sendMessage(message, callback) {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { text: message }, function(response) {
+      if (response) {
+        callback(response.text);
+      }
+    });
+  });
+}
 
 var panel =  {
-  togglePanel: function(panel){
-		var openPanel = function(){
+  togglePanel: function(panel) {
+		var openPanel = function() {
       console.log("open panel");
-      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { text: "open_panel" }/*, 
-          function(response){
-            alert("ciaone");
-          }*/
-        );
-      });
+      sendMessage("open_panel");
 		};
 
-		var closePanel = function(){
+		var closePanel = function() {
       console.log("close panel");
-      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { text: "close_panel" }/*, 
-          function(response){
-            alert("ciaone");
-          }*/
-        );
-      });
+      sendMessage("close_panel");
 		};
 
 		if (panel) {			
