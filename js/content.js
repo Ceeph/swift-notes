@@ -11,9 +11,11 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
      * - reorder CSS
      * - module it
     */
+    var matches = msg.tab.url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+    var domain = matches && matches[1];
 		var newPanel = document.createElement('iframe');
 		newPanel.setAttribute('id','sidebarPanel');
-		newPanel.setAttribute('src',  chrome.extension.getURL('../sidebar.html'));
+		newPanel.setAttribute('src',  chrome.extension.getURL('../sidebar.html') + '#' + domain);
 		newPanel.setAttribute("style", 
 			"z-index: 9999;" +
 			"overflow-x: hidden;" +
@@ -28,14 +30,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 			"height:100%;");
       newPanel.setAttribute("allowtransparency", "false");
       newPanel.setAttribute("scrolling", "no");
-
-      /*var injectScript = document.createElement('script');
-      injectScript.src = chrome.extension.getURL('js/injected.js');
-      injectScript.onload = function() {
-          this.parentNode.removeChild(this);
-      };
-      (document.head||document.documentElement).appendChild(injectScript);
-      (newPanel.head||newPanel.documentElement).appendChild(injectScript);*/
 
 		  document.body.appendChild(newPanel);
       sidebarElement = $('#sidebarPanel');
