@@ -1,1 +1,5 @@
-alert("prova prova");
+$(document).ready(function(){
+  $('#save-note').on("click", function() {
+    alert($('textarea').val());
+  });
+});

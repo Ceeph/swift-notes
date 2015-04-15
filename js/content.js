@@ -28,17 +28,21 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 			"height:100%;");
       newPanel.setAttribute("allowtransparency", "false");
       newPanel.setAttribute("scrolling", "no");
-		document.body.appendChild(newPanel);
-    sidebarElement.animate({right: 0},50);
 
-		sidebarElement = $('#sidebarPanel');
-    var injectScript = document.createElement('script');
-    injectScript.src = chrome.extension.getURL('js/injected.js');
-    injectScript.onload = function() {
-        this.parentNode.removeChild(this);
-    };
-    (document.head||document.documentElement).appendChild(injectScript);
-		
+      /*var injectScript = document.createElement('script');
+      injectScript.src = chrome.extension.getURL('js/injected.js');
+      injectScript.onload = function() {
+          this.parentNode.removeChild(this);
+      };
+      (document.head||document.documentElement).appendChild(injectScript);
+      (newPanel.head||newPanel.documentElement).appendChild(injectScript);*/
+
+		  document.body.appendChild(newPanel);
+      sidebarElement = $('#sidebarPanel');
+      sidebarElement.animate({right: 0},50);
+      //alert(document.getElementById('sidebarPanel').contentDocument.body);
+      //alert($('#sidebarPanel').contents().find('html').html());
+      //sendResponse({ text: 'inject' });
    }
    else if (msg.text && (msg.text == "close_panel")) {
    	sidebarElement.animate({right: "-20%"},50,function(){
@@ -46,4 +50,3 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
    	});
    }
 });
-
