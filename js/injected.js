@@ -1,10 +1,26 @@
-// T0D0: crete 'addli' function: DRY
 /**
  * This script is linked by the HTML page that gets injected by the content script.
  * Used to CRUD on the notes stored
  */
 
 $(document).ready(function(){
+
+  function insertLi(text, location, date, index, anchor){
+    var toAppend = '<li value="' + index + '">' + 
+        text + ' <a href="http://' + location + '" target="_blank">' + location + '</a> ' + date + 
+      //'<button class="waves-effect waves-teal btn-flati" id="delete-note">Delete</button>';
+      '<i id="delete-note" class="tiny mdi-action-delete" style="cursor:pointer;"></i>';
+    anchor.append(toAppend);
+  }
+
+  function getActualDate(){
+    var d = new Date();
+    var month = d.getMonth() + 1;
+    var date = d.getDate() + '/' + 
+      month + '/' + d.getFullYear();
+
+    return date;
+  }
 
   // Displays notes stored
   chrome.storage.local.get('notes', function (result) {
@@ -13,14 +29,7 @@ $(document).ready(function(){
       class: 'list-notes'
     });
     $.each(notes, function(key, value){
-      /*$('<li/>', {
-        value: key,
-        text: value.text + ' ' + value.location + '<span id="delete-note">delete</span>'
-      }).appendTo(newNote);*/
-      var toDisplay = '<li value="' + key + '">' + 
-          value.text + ' ' + value.location + 
-        '<button id="delete-note">Delete</button>';
-      newNote.append(toDisplay);
+      insertLi(value.text, value.location, value.date, key, newNote);
     });
     $('#all-notes').append(newNote);
   });
@@ -31,15 +40,20 @@ $(document).ready(function(){
       var matches = window.location.href.match(/#([^ ]*)/);
       var domain = matches && matches[1];
       var notes = result.notes;
+      var index = notes.length;
       var textVal = $('textarea').val();
-      notes.push({ text: textVal, location: domain });
+      var newKey = { 
+        text: textVal, 
+        location: domain,
+        date: getActualDate()
+      }
+      notes.push(newKey);
+
       chrome.storage.local.set({notes: notes}, function(){
         $('textarea').val("");
-        $('<li/>', {
-          value: null,
-          text: textVal + ' ' + domain + '<button>Delete</button>'
-        }).appendTo($('.list-notes'));
-        alert("Note added");
+        insertLi(newKey.text, newKey.location, newKey.date, index, $('.list-notes'));
+        //alert("Note added");
+        Materialize.toast('Note added', 2000);
       });
     });
   });
@@ -50,8 +64,9 @@ $(document).ready(function(){
   // Erases all the notes saved
   $('#clear-notes').on("click", function(){
     chrome.storage.local.clear(function(){
-      alert("Notes cleared");
-    })
+      //alert("Notes cleared");
+      Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
+    });
   });
 
   // Deletes the note from the page and storage
@@ -62,8 +77,9 @@ $(document).ready(function(){
       console.log(items.notes);
       toRemove.remove();
       chrome.storage.local.set(items, function(){
-        alert("Item deleted");
-      })
+        //alert("Item deleted");
+        Materialize.toast('Note deleted', 2000);
+      });
     });
   });
 });
