@@ -1,5 +1,18 @@
+/** 
+ * Content script: runs in a sandbox and is the only one to interact with the page and its DOM
+ * Used to get and set content
+ */
+
+/* Listens for any messages incoming from background script or popup page
+ * @msg: incoming message
+ * @sender: tab who sent the message, in case the sender was another content script
+ * @sendResponse: function to send a response back
+ */
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+
    if (msg.text && (msg.text == "get_panel")) {
+
+      // Gets the status of the panel and sends it back
       isPanel = ( document.getElementById('sidebarPanel') ? true : false );
       sendResponse({ text: isPanel});
    }
@@ -11,8 +24,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
      * - reorder CSS
      * - module it
     */
+
+    // Gets the url of the active page and gets the domain from it
     var matches = msg.tab.url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
     var domain = matches && matches[1];
+
+    // Create the iFrame element and appends it to the body of the page
 		var newPanel = document.createElement('iframe');
 		newPanel.setAttribute('id','sidebarPanel');
 		newPanel.setAttribute('src',  chrome.extension.getURL('../sidebar.html') + '#' + domain);
@@ -35,7 +52,10 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
       sidebarElement = $('#sidebarPanel');
       sidebarElement.animate({right: 0},50);
    }
+
    else if (msg.text && (msg.text == "close_panel")) {
+
+    // Closes the panel
    	sidebarElement.animate({right: "-20%"},50,function(){
    		sidebarElement.remove();
    	});

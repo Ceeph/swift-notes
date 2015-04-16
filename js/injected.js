@@ -1,6 +1,12 @@
 // T0D0: crete 'addli' function: DRY
+/**
+ * This script is linked by the HTML page that gets injected by the content script.
+ * Used to CRUD on the notes stored
+ */
 
 $(document).ready(function(){
+
+  // Displays notes stored
   chrome.storage.local.get('notes', function (result) {
     var notes = result.notes;
     var newNote = $('<ul/>', {
@@ -19,6 +25,7 @@ $(document).ready(function(){
     $('#all-notes').append(newNote);
   });
 
+  // Save textarea to storage, adding the source domain
   $('#save-note').on("click", function() {
     chrome.storage.local.get({notes: []}, function(result){
       var matches = window.location.href.match(/#([^ ]*)/);
@@ -40,12 +47,14 @@ $(document).ready(function(){
   //$('#see-notes').on("click", function(){
   //});
 
+  // Erases all the notes saved
   $('#clear-notes').on("click", function(){
     chrome.storage.local.clear(function(){
       alert("Notes cleared");
     })
   });
 
+  // Deletes the note from the page and storage
   $('#all-notes').on('click', '#delete-note', function(){
     var toRemove = this.closest('li');
     chrome.storage.local.get({notes: []}, function(items){
