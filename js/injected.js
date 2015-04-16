@@ -23,7 +23,7 @@ $(document).ready(function(){
   }
 
   // Displays notes stored
-  chrome.storage.local.get('notes', function (result) {
+  chrome.storage.sync.get('notes', function (result) {
     var notes = result.notes;
     var newNote = $('<ul/>', {
       class: 'list-notes'
@@ -36,7 +36,7 @@ $(document).ready(function(){
 
   // Save textarea to storage, adding the source domain
   $('#save-note').on("click", function() {
-    chrome.storage.local.get({notes: []}, function(result){
+    chrome.storage.sync.get({notes: []}, function(result){
       var matches = window.location.href.match(/#([^ ]*)/);
       var domain = matches && matches[1];
       var notes = result.notes;
@@ -49,7 +49,7 @@ $(document).ready(function(){
       }
       notes.push(newKey);
 
-      chrome.storage.local.set({notes: notes}, function(){
+      chrome.storage.sync.set({notes: notes}, function(){
         $('textarea').val("");
         insertLi(newKey.text, newKey.location, newKey.date, index, $('.list-notes'));
         //alert("Note added");
@@ -63,7 +63,7 @@ $(document).ready(function(){
 
   // Erases all the notes saved
   $('#clear-notes').on("click", function(){
-    chrome.storage.local.clear(function(){
+    chrome.storage.sync.clear(function(){
       //alert("Notes cleared");
       Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
     });
@@ -72,11 +72,11 @@ $(document).ready(function(){
   // Deletes the note from the page and storage
   $('#all-notes').on('click', '#delete-note', function(){
     var toRemove = this.closest('li');
-    chrome.storage.local.get({notes: []}, function(items){
+    chrome.storage.sync.get({notes: []}, function(items){
       items.notes.splice(toRemove.value, 1);
       console.log(items.notes);
       toRemove.remove();
-      chrome.storage.local.set(items, function(){
+      chrome.storage.sync.set(items, function(){
         //alert("Item deleted");
         Materialize.toast('Note deleted', 2000);
       });
