@@ -34,9 +34,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 		  document.body.appendChild(newPanel);
       sidebarElement = $('#sidebarPanel');
       sidebarElement.animate({right: 0},50);
-      //alert(document.getElementById('sidebarPanel').contentDocument.body);
-      //alert($('#sidebarPanel').contents().find('html').html());
-      //sendResponse({ text: 'inject' });
    }
    else if (msg.text && (msg.text == "close_panel")) {
    	sidebarElement.animate({right: "-20%"},50,function(){
