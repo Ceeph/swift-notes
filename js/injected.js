@@ -19,6 +19,17 @@ $(document).ready(function(){
     chrome.storage.local.get('notes', function (result) {
       //TODO: add display function
       console.log(result.notes);
+      var notes = result.notes;
+      var newNote = $('<ul/>', {
+        class: 'list-notes'
+      });
+      $.each(notes, function(key, value){
+        $('<li/>', {
+          value: key,
+          text: value.text + ' ' + value.location
+        }).appendTo(newNote);
+      });
+      $('#all-notes').append(newNote);
     });
   });
 
