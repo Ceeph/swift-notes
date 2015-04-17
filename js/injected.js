@@ -35,6 +35,7 @@ $(document).ready(function(){
   });
 
   // Save textarea to storage, adding the source domain
+  // TODO: add check for undefined array
   $('#save-note').on("click", function() {
     chrome.storage.sync.get({notes: []}, function(result){
       var matches = window.location.href.match(/#([^ ]*)/);

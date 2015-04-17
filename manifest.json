@@ -45,8 +45,9 @@
   },
   "web_accessible_resources": [
     "sidebar.html",
-    "js/injected.js",
-    "js/jquery-2.1.3.min.js"
+    "sidebar-angular.html",
+    "css/angular-material.min.css",
+    "js/*"
   ],
   "offline_enabled": true
 }

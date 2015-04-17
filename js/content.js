@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     // Create the iFrame element and appends it to the body of the page
     var newPanel = document.createElement('iframe');
     newPanel.setAttribute('id','sidebarPanel');
-    newPanel.setAttribute('src',  chrome.extension.getURL('../sidebar.html') + '#' + domain);
+    newPanel.setAttribute('src',  chrome.extension.getURL('../sidebar-angular.html') + '#' + domain);
     newPanel.setAttribute("style", 
      "z-index: 9999;" +
      "overflow-x: hidden;" +
@@ -46,9 +46,13 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     newPanel.setAttribute("allowtransparency", "false");
     //newPanel.setAttribute("scrolling", "no");
 
-    document.body.appendChild(newPanel);
+    /*document.body.appendChild(newPanel);
+    sidebarElement = $('#sidebarPanel');
+    sidebarElement.animate({right: 0},50);*/
+    $('body').append(newPanel);
     sidebarElement = $('#sidebarPanel');
     sidebarElement.animate({right: 0},50);
+
   }
 
   else if (msg.text && (msg.text == "close_panel")) {

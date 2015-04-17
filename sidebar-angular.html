@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="notes" ng-csp>
+  <head>
+    <link type="text/css" rel="stylesheet" href="css/angular-material.min.css">
+  </head>
+  <body layout="column" ng-controller="SwiftController as swift">
+
+    <md-content layout-padding>
+      <h1>Swift Notes</h1>
+      <form name="newNoteForm" ng-submit="swift.addNote()">
+        <md-input-container >
+          <textarea autofocus name="noteText" ng-model="swift.newNote.text"></textarea>
+        </md-input-container >
+        <md-input-container>
+          <md-button class="md-raised md-primary md-hue-1">Save</md-button>
+        </md-input-container>
+      </form>
+    </md-content>
+
+    <md-content layout-padding>
+      <md-list>
+        <md-list-item class="md-3-line" ng-repeat="note in swift.notes track by $index">
+          <div class="md-list-item-text">
+            <h3 class="md-headlin"><a href="http://{{ note.location }}" target="_blank">{{ note.location }}</a></h3>
+            <h5 class=" md-subhead">{{ note.date | date: 'dd/MM/yy @ hh:mm'}}</h4>
+            <p class="md-body-1">
+              {{ note.text }} 
+              <md-button ng-click="swift.deleteNote($index)" class="md-raised">Delete</md-button>
+            </p>
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-content>
+
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-animate.min.js"></script>
+    <script type="text/javascript" src="js/angular-aria.min.js"></script>
+    <script type="text/javascript" src="js/angular-material.min.js"></script>
+    <script type="text/javascript" src="js/notes.js"></script>
+  </body>
+</html>
