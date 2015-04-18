@@ -2,40 +2,71 @@
 <html ng-app="notes" ng-csp>
   <head>
     <link type="text/css" rel="stylesheet" href="css/angular-material.min.css">
+    <link type="text/css" rel="stylesheet" href="css/angular-csp.css">
+    <link type="text/css" rel="stylesheet" href="css/notes.css">
   </head>
+
   <body layout="column" ng-controller="SwiftController as swift">
 
-    <md-content layout-padding>
-      <h1>Swift Notes</h1>
-      <form name="newNoteForm" ng-submit="swift.addNote()">
-        <md-input-container >
-          <textarea autofocus name="noteText" ng-model="swift.newNote.text"></textarea>
+    <!-- Topbar -->
+    <md-toolbar id="toolbar">
+      <h2 class="md-toolbar-tools">
+        <div id="button-placeholder">
+          <md-button class="md-icon-button"  id="back-button" ng-show="swift.shownew" ng-click="swift.shownew=false" aria-label="Back">
+            <md-icon md-svg-src="/img/chevron-left.svg" alt="Back"></md-icon>
+          </md-button>
+        </div>
+        <span>Swift Notes</span>
+        <span id="git-toolbar"><a href="https://github.com/ceeph/swift-notes" target="_blank"><img src="img/github.png"></a></span>
+      </h2>
+    </md-toolbar>
+    
+    <!-- New Note -->
+    <md-content layout-padding ng-if="swift.shownew">
+      <form id="newnote-form" name="newNoteForm" ng-submit="swift.addNote()">
+        <md-input-container>
+          <textarea id="textbox" name="noteText" rows="15" ng-model="swift.newNote.text" autofocus></textarea>
         </md-input-container >
         <md-input-container>
-          <md-button class="md-raised md-primary md-hue-1">Save</md-button>
+          <md-button class="md-raised md-primary">Save</md-button>
         </md-input-container>
       </form>
     </md-content>
 
-    <md-content layout-padding>
+    <!-- Notes display -->
+    <md-content layout-padding ng-if="!swift.shownew">
       <md-list>
-        <md-list-item class="md-3-line" ng-repeat="note in swift.notes track by $index">
-          <div class="md-list-item-text">
-            <h3 class="md-headlin"><a href="http://{{ note.location }}" target="_blank">{{ note.location }}</a></h3>
-            <h5 class=" md-subhead">{{ note.date | date: 'dd/MM/yy @ hh:mm'}}</h4>
-            <p class="md-body-1">
-              {{ note.text }} 
-              <md-button ng-click="swift.deleteNote($index)" class="md-raised">Delete</md-button>
-            </p>
-          </div>
+
+        <!-- Single Note -->
+        <md-list-item class="md-3-line" ng-repeat="note in swift.notes track by $index" layout-padding flex>
+          <md-whiteframe class="md-whiteframe-z1" layout>
+            <div class="md-list-item-text" id="note-card" layout-padding>
+              <!-- Note header: location + date + (delete) -->
+              <header style="background: {{note.color}}"layout-padding  ng-mouseover="this.showdelete = true" ng-mouseleave="this.showdelete = false">
+                <span class="md-caption"><a href="http://{{ note.location }}" target="_blank">{{ note.location }}</a></span>
+                <span id="del-button" ng-show="showdelete"><md-button ng-click="swift.deleteNote($index)" class="md-raised md-warn">Delete</md-button></span>
+                <small class="md-caption pull-right" ng-hide="showdelete">{{ note.date | date: 'dd/MM/yy @ hh:mm'}}</small>
+              </header>
+              <!-- Note content: text -->
+              <p class="md-body-1" layout-padding> {{ note.text }}</p>
+            </div>
+          </md-whiteframe>
         </md-list-item>
       </md-list>
+
+      <!-- New note button -->
+      <md-button class="md-fab" aria-label="New Note" id="newnote-button" ng-click="swift.shownew=true">
+        <span class="fab-sign">+<span>
+      </md-button>
+
+      <div id="bottom-gradient"></div>
     </md-content>
 
-    <script type="text/javascript" src="js/angular.min.js"></script>
-    <script type="text/javascript" src="js/angular-animate.min.js"></script>
-    <script type="text/javascript" src="js/angular-aria.min.js"></script>
-    <script type="text/javascript" src="js/angular-material.min.js"></script>
+    <!-- Scripts -->
+    <script type="text/javascript" src="js/vendor/angular.min.js"></script>
+    <script type="text/javascript" src="js/vendor/angular-animate.min.js"></script>
+    <script type="text/javascript" src="js/vendor/angular-aria.min.js"></script>
+    <script type="text/javascript" src="js/vendor/angular-material.min.js"></script>
     <script type="text/javascript" src="js/notes.js"></script>
   </body>
 </html>

@@ -59,7 +59,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 
     // Closes the panel
     sidebarElement.animate({right: "-20%"},50,function(){
-     sidebarElement.remove();
-   });
+      sidebarElement.remove();
+    });
   }
 });
