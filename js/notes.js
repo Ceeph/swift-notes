@@ -15,12 +15,20 @@
 
     swift.notes = [];
     swift.newNote = {};
+    swift.shownew = true;
 
     chrome.storage.sync.get('notes', function (result) {
       if (result.notes) {
         swift.notes = result.notes;
       }
     });
+
+    document.addEventListener("keydown", function(e) {
+      if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+        e.preventDefault();
+        swift.addNote();
+      }
+    }, false);
 
     swift.showToast = function (text) {
       $mdToast.show(

@@ -7,9 +7,8 @@
   </head>
 
   <body layout="column" ng-controller="SwiftController as swift">
-
     <!-- Topbar -->
-    <md-toolbar id="toolbar">
+    <md-toolbar>
       <h2 class="md-toolbar-tools">
         <div id="button-placeholder">
           <md-button class="md-icon-button"  id="back-button" ng-show="swift.shownew" ng-click="swift.shownew=false" aria-label="Back">
@@ -27,14 +26,15 @@
         <md-input-container>
           <textarea id="textbox" name="noteText" rows="15" ng-model="swift.newNote.text" autofocus></textarea>
         </md-input-container >
-        <md-input-container>
-          <md-button class="md-raised md-primary">Save</md-button>
+        <md-input-container id="save-container">
+          <md-button id="save-button" class="md-raised md-primary">Save
+          <md-tooltip md-direction="top">Ctrl+S to Save the Note</md-tooltip></md-button>
         </md-input-container>
       </form>
     </md-content>
 
     <!-- Notes display -->
-    <md-content layout-padding ng-if="!swift.shownew">
+    <md-content layout-padding ng-if="!swift.shownew" style="margin-bottom: 50px;">
       <md-list>
 
         <!-- Single Note -->
