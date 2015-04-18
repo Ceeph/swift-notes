@@ -36,14 +36,13 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
      "overflow-x: hidden;" +
      "position:fixed;" +
      "top:0;" +
-     "right:-20%;" +
+     "right:-25%;" +
      "width:25%;" +
      "border: none;" +
      "-webkit-box-shadow: -4px 0px 7px 0px rgba(0,0,0,0.33);" +
      "-moz-box-shadow: -4px 0px 7px 0px rgba(0,0,0,0.33);" +
      "box-shadow: -4px 0px 7px 0px rgba(0,0,0,0.33);" +
      "height:100%;");
-    newPanel.setAttribute("allowtransparency", "false");
     //newPanel.setAttribute("scrolling", "no");
 
     /*document.body.appendChild(newPanel);
@@ -56,10 +55,19 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   }
 
   else if (msg.text && (msg.text == "close_panel")) {
+    if (sidebarElement.css('right') == '0px'){
+      sidebarElement.animate({right: "-25%"},50,function(){
+        sidebarElement.remove();
+      });
+    } else {
+      sidebarElement.animate({right: 0},50);
+    }
+  }
+});
 
-    // Closes the panel
-    sidebarElement.animate({right: "-20%"},50,function(){
-      sidebarElement.remove();
-    });
+// assign a document listener
+$(document).click(function(e){
+  if( $(e.target) != $('#sidebarPanel') ){
+    sidebarElement.animate({right: "-25%"},50);
   }
 });

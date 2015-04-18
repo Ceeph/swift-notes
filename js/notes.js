@@ -30,6 +30,14 @@
       }
     }, false);
 
+    swift.lowOpacity = function(){
+      document.getElementsByTagName('html')[0].style.opacity = 0.5;
+    };
+
+    swift.highOpacity = function(){
+      document.getElementsByTagName('html')[0].style.opacity = 1;
+    };
+
     swift.showToast = function (text) {
       $mdToast.show(
         $mdToast.simple()
