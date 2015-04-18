@@ -44,6 +44,7 @@
               <!-- Note header: location + date + (delete) -->
               <header style="background: {{note.color}}"layout-padding  ng-mouseover="this.showdelete = true" ng-mouseleave="this.showdelete = false">
                 <span class="md-caption"><a href="http://{{ note.location }}" target="_blank">{{ note.location }}</a></span>
+                <span id="edit-button" ng-show="showdelete"><md-button ng-click="" class="md-raised">Edit</md-button></span>
                 <span id="del-button" ng-show="showdelete"><md-button ng-click="swift.deleteNote($index)" class="md-raised md-warn">Delete</md-button></span>
                 <small class="md-caption pull-right" ng-hide="showdelete">{{ note.date | date: 'dd/MM/yy @ hh:mm'}}</small>
               </header>
